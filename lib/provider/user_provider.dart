@@ -15,28 +15,28 @@ class UserProvider with ChangeNotifier {
   getUser() => this.user;
   setUser(User user) => this.user = user;
 
-  void fetchUsers({String query}) async {
+  Future<void> fetchUsers({String query}) async {
     this.users = await _userRepository.getUsers(query: query);
     notifyListeners();
   }
 
-  void fetchUser({User user}) async {
+  Future<void> fetchUser({User user}) async {
     this.user = await _userRepository.getUser(user?.id);
     notifyListeners();
   }
 
-  void createUser(User user) async {
+  Future<void> createUser(User user) async {
     user.id = await _userRepository.createUser(user);
     users.add(user);
     notifyListeners();
   }
 
-  void updateUser(User user) async {
+  Future<void> updateUser(User user) async {
     await _userRepository.updateUser(user);
     fetchUsers();
   }
 
-  void deleteUser(User user) async {
+  Future<void> deleteUser(User user) async {
     await _userRepository.deleteUser(user.id);
     users.removeAt(this.users.indexOf(user));
     notifyListeners();
