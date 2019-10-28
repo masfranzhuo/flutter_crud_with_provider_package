@@ -41,7 +41,7 @@ class UserListScreen extends StatelessWidget {
               MaterialPageRoute<UserFormScreen>(
                 builder: (context) {
                   return ChangeNotifierProvider.value(
-                    value: userProvider..fetchUser(User()),
+                    value: userProvider..fetchUser(),
                     child: UserFormScreen(),
                   );
                 },
@@ -87,7 +87,7 @@ class UserListScreen extends StatelessWidget {
                     MaterialPageRoute<UserFormScreen>(
                       builder: (context) {
                         return ChangeNotifierProvider.value(
-                          value: userProvider..fetchUser(user),
+                          value: userProvider..fetchUser(user: user),
                           child: UserFormScreen(),
                         );
                       },

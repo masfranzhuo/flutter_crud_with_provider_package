@@ -20,21 +20,19 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchUser(User user) async {
+  void fetchUser({User user}) async {
     this.user = await _userRepository.getUser(user?.id);
     notifyListeners();
   }
 
   void createUser(User user) async {
-    int userId = await _userRepository.createUser(user);
-    users.add(await _userRepository.getUser(userId));
+    user.id = await _userRepository.createUser(user);
+    users.add(user);
     notifyListeners();
   }
 
   void updateUser(User user) async {
     await _userRepository.updateUser(user);
-    // users[this.users.indexOf(user)] = user;
-    // notifyListeners();
     fetchUsers();
   }
 
