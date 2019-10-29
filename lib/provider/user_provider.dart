@@ -6,6 +6,7 @@ class UserProvider with ChangeNotifier {
   final _userRepository = UserRepository();
   List<User> users;
   User user;
+  User prevUser;
 
   UserProvider({this.users, this.user});
 
@@ -22,18 +23,19 @@ class UserProvider with ChangeNotifier {
 
   Future<void> fetchUser({User user}) async {
     this.user = await _userRepository.getUser(user?.id);
+    this.prevUser = user;
     notifyListeners();
   }
 
   Future<void> createUser(User user) async {
-    user.id = await _userRepository.createUser(user);
-    users.add(user);
+    users.add(await _userRepository.createUser(user));
     notifyListeners();
   }
 
   Future<void> updateUser(User user) async {
-    await _userRepository.updateUser(user);
-    fetchUsers();
+    this.user = await _userRepository.updateUser(user);
+    users[this.users.indexOf(this.prevUser)] = this.user;
+    notifyListeners();
   }
 
   Future<void> deleteUser(User user) async {
